@@ -34,10 +34,10 @@ TextView statusTxt,openedByTxt;
 CardView cardView;
 ArrayList<String> lockMemberList;
 LinearLayout linearLayout;
-Button buttonMember,toggleButton,enterButton;
+Button buttonMember,toggleButton,enterButton,configureButton;
 DatabaseReference lockRef,lockMember;
 FirebaseAuth mAuth;
-EditText MemberEditText;
+EditText MemberEditText,localIPEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +49,9 @@ EditText MemberEditText;
         buttonMember=(Button)findViewById(R.id.lockActivityButton);
         toggleButton=(Button)findViewById(R.id.toggleButton);
         enterButton=(Button)findViewById(R.id.enterButton);
+        configureButton=(Button)findViewById(R.id.configureButton);
+        MemberEditText=(EditText)findViewById(R.id.memberNameEditText);
+        localIPEditText=(EditText)findViewById(R.id.editTextLockActivity);
         lockRef= FirebaseDatabase.getInstance().getReference();
         lockMember=FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
@@ -57,7 +60,7 @@ EditText MemberEditText;
         int color=getIntent().getExtras().getInt("color");
         String LockNumber=getIntent().getExtras().getString("LockNumber");
         lockMemberList=new ArrayList<>();
-        MemberEditText=(EditText)findViewById(R.id.memberNameEditText);
+
         statusTxt.setText(status);
         openedByTxt.setText(openedBy);
         lockMember.child("Lock members").child(mAuth.getCurrentUser().getUid()).child(LockNumber).addChildEventListener(new ChildEventListener() {
@@ -121,6 +124,17 @@ EditText MemberEditText;
         linearLayout.setBackgroundColor(color);
         buttonMember.setBackgroundColor(color);
         toggleButton.setBackgroundColor(color);
+
+        configureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),configurationActivity.class);
+                intent.putExtra("localip",localIPEditText.getText().toString());
+                startActivity(intent);
+
+            }
+        });
+
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

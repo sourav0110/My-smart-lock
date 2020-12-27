@@ -17,11 +17,11 @@
         android:textColorHint="#000000"
         android:hint="Enter the Email id of the owner"
         android:textSize="20sp"
-        android:textAlignment="gravity"
+        android:textAlignment="center"
 
         android:textColor="#000000"
         android:id="@+id/OwnerEmailEditText"
-        />
+        android:gravity="center_horizontal" />
     <EditText
         android:id="@+id/OwnerPassword"
         android:layout_width="match_parent"
@@ -33,12 +33,12 @@
 
         android:hint="Enter the password"
         android:textSize="20sp"
-        android:textAlignment="gravity"
+        android:textAlignment="center"
 
         android:textColor="#000000"
         android:inputType="textPassword"
         android:ems="10"
-        />
+        android:gravity="center_horizontal" />
 
     <ProgressBar
         android:id="@+id/progressBarJoinGroup"
