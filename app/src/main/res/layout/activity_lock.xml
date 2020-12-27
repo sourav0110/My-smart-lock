@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".lockActivity">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardViewLockActivity"
+            app:cardCornerRadius="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/linearViewLockActivity">
+
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:id="@+id/lockActivityStatus"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+
+    />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="26sp"
+        android:layout_gravity="center"
+        android:id="@+id/lockActivityOpenedBy"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="50dp"
+
+        />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="198.126.45.67"
+                android:textColorHint="#000000"
+                android:textColor="#000000"
+                android:textAlignment="center"
+                android:id="@+id/editTextLockActivity"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/configureButton"
+                android:gravity="center_horizontal" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Configure"
+                android:id="@+id/configureButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+
+
+                />
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape"
+            android:text="Add new member"
+            android:bottomRightRadius="10dp"
+            android:bottomLeftRadius="10dp"
+            android:topLeftRadius="10dp"
+            android:topRightRadius="10dp"
+            android:padding="10dp"
+            android:textColor="#ffffff"
+            android:id="@+id/lockActivityButton"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="20dp">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Enter your name "
+                android:textColorHint="#000000"
+                android:textColor="#000000"
+                android:textAlignment="center"
+                android:id="@+id/memberNameEditText"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/enterButton"
+                android:gravity="center_horizontal" />
+
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Configure"
+                android:id="@+id/enterButton"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+
+
+                />
+
+        </RelativeLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="OFF"
+            android:enabled="false"
+            android:layout_marginTop="10dp"
+            android:id="@+id/toggleButton"
+            />
+
+
+    </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
