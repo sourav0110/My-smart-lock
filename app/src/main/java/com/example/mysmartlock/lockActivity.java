@@ -11,7 +11,9 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,15 +26,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class lockActivity extends AppCompatActivity {
 TextView statusTxt,openedByTxt;
 CardView cardView;
+ArrayList<String> lockMemberList;
 LinearLayout linearLayout;
-Button buttonMember,toggleButton;
+Button buttonMember,toggleButton,enterButton;
 DatabaseReference lockRef,lockMember;
 FirebaseAuth mAuth;
+EditText MemberEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,7 @@ FirebaseAuth mAuth;
         linearLayout=(LinearLayout) findViewById(R.id.linearViewLockActivity);
         buttonMember=(Button)findViewById(R.id.lockActivityButton);
         toggleButton=(Button)findViewById(R.id.toggleButton);
+        enterButton=(Button)findViewById(R.id.enterButton);
         lockRef= FirebaseDatabase.getInstance().getReference();
         lockMember=FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
@@ -50,6 +56,8 @@ FirebaseAuth mAuth;
         String openedBy=getIntent().getExtras().getString("openedBy");
         int color=getIntent().getExtras().getInt("color");
         String LockNumber=getIntent().getExtras().getString("LockNumber");
+        lockMemberList=new ArrayList<>();
+        MemberEditText=(EditText)findViewById(R.id.memberNameEditText);
         statusTxt.setText(status);
         openedByTxt.setText(openedBy);
         lockMember.child("Lock members").child(mAuth.getCurrentUser().getUid()).child(LockNumber).addChildEventListener(new ChildEventListener() {
@@ -57,6 +65,8 @@ FirebaseAuth mAuth;
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String data=dataSnapshot.getValue(String.class);
                 Log.d("Username",data);
+                lockMemberList.add(data);
+
             }
 
             @Override
@@ -111,6 +121,19 @@ FirebaseAuth mAuth;
         linearLayout.setBackgroundColor(color);
         buttonMember.setBackgroundColor(color);
         toggleButton.setBackgroundColor(color);
+        enterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(lockMemberList.contains(MemberEditText.getText().toString())){
+                    toggleButton.setVisibility(View.VISIBLE);
+
+                }else{
+                    Toast.makeText(getApplicationContext(),"Not allowed to use the lock",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
 
 
     }

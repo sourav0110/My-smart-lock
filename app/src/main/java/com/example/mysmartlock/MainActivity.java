@@ -12,6 +12,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean isOwner;
     static Boolean check;
     static SharedPreferences sharedPreferences;
+    ProgressBar mprogressbar;
 
     ArrayList<String> owner=new ArrayList<>();
     public void addDatabase(String e,String username,String id){
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
 
             final String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString();
+            mprogressbar.setVisibility(View.VISIBLE);
+
 
             if(owner.contains(email)) {
 
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "User Logged in", Toast.LENGTH_LONG).show();
                             check=true;
+                            mprogressbar.setVisibility(View.GONE);
                             Intent intent = new Intent(getApplicationContext(), DashboardOwner.class);
                             startActivity(intent);
                         }
@@ -94,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
                             } else if (task.getException() instanceof FirebaseAuthInvalidUserException) {
                                 Toast.makeText(MainActivity.this, "Email not in use", Toast.LENGTH_LONG).show();
                                 emailEditText.setError("Email not in use");
+                                mprogressbar.setVisibility(View.GONE);
+
                             }
                         }
 
@@ -107,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "User Logged in", Toast.LENGTH_LONG).show();
                             check=false;
+                            mprogressbar.setVisibility(View.GONE);
                             Intent intent = new Intent(getApplicationContext(), DashboardNewUser.class);
                             startActivity(intent);
                         }
@@ -118,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                             } else if (task.getException() instanceof FirebaseAuthInvalidUserException) {
                                 Toast.makeText(MainActivity.this, "Email not in use", Toast.LENGTH_LONG).show();
                                 emailEditText.setError("Email not in use");
+                                mprogressbar.setVisibility(View.GONE);
                             }
                         }
 
@@ -181,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         signButton =(Button)findViewById(R.id.signIn);
         singTextView=(TextView)findViewById(R.id.signTextView);
         usernameEditText=(EditText)findViewById(R.id.usernameEditText);
+        mprogressbar=(ProgressBar)findViewById(R.id.progressBar);
         firebaseAuth =FirebaseAuth.getInstance();
 
         ownerRef=FirebaseDatabase.getInstance().getReference("User Account");
@@ -219,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i("Check", String.valueOf(owner.contains(emailEditText.getText().toString())));
         SharedPreferences sharedPreferences=getSharedPreferences(SHARED_PREF,MODE_PRIVATE);
         isOwner=sharedPreferences.getBoolean(TEXT,false);
-        Toast.makeText(getApplicationContext(),isOwner.toString(),Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),isOwner.toString(),Toast.LENGTH_LONG).show();
 
 
         if(firebaseAuth.getCurrentUser()!=null && isOwner){
@@ -230,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        Toast.makeText(getApplicationContext(),isOwner.toString(),Toast.LENGTH_LONG).show();
+
 
 
      /*   if(mAuth.getCurrentUser()!=null && owner.contains(emailEditText.getText().toString())==false){

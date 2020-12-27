@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ public class joinNewGroup extends AppCompatActivity {
     FirebaseAuth myAuth;
     public static final String SHARED_PREF="SharedPrefs";
     public static final String TEXT="Owner";
+    ProgressBar mprogressBar;
 
 
 
@@ -36,15 +38,19 @@ public class joinNewGroup extends AppCompatActivity {
         ownerEmailId=(EditText)findViewById(R.id.OwnerEmailEditText);
         ownerPassword=(EditText)findViewById(R.id.OwnerPassword);
         myAuth=FirebaseAuth.getInstance();
+        mprogressBar=(ProgressBar)findViewById(R.id.progressBarJoinGroup);
         Toast.makeText(getApplicationContext(),"Enter the credentials ",Toast.LENGTH_LONG).show();
         submit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if (!validateEmailAddress() | !validatePassword()) {
                     return;
                 }
+                mprogressBar.setVisibility(View.VISIBLE);
                 String email = ownerEmailId.getText().toString().trim();
                 String password = ownerPassword.getText().toString();
+
 
                 myAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -52,7 +58,7 @@ public class joinNewGroup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "User Logged in", Toast.LENGTH_LONG).show();
                             MainActivity.check=true;
-
+                            mprogressBar.setVisibility(View.GONE);
 
                           Intent in =new Intent(getApplicationContext(),DashboardOwner.class);
                            startActivity(in);
@@ -66,6 +72,7 @@ public class joinNewGroup extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Email not in use", Toast.LENGTH_LONG).show();
                                 ownerEmailId.setError("Email not in use");
                             }
+                            mprogressBar.setVisibility(View.GONE);
                         }
 
                     }
