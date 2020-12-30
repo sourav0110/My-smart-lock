@@ -42,6 +42,7 @@ public class DashboardOwner extends AppCompatActivity {
     DatabaseReference namesRef,AccRef,UserLockRef;
     String usernameFB,UserAccFB;
     TextView OwnerName,OwnerAccount;
+    ImageView profileImage;
 
 
 
@@ -53,6 +54,7 @@ public class DashboardOwner extends AppCompatActivity {
         logOut=(Button)findViewById(R.id.logOutOwner);
         mAuth= FirebaseAuth.getInstance();
         lockList=(ListView)findViewById(R.id.locklist);
+        profileImage=(ImageView)findViewById(R.id.ownerimage);
         String UID=mAuth.getUid();
         OwnerAccount=(TextView)findViewById(R.id.OwnerAccount);
         OwnerName=(TextView)findViewById(R.id.OwnerName);
@@ -187,6 +189,13 @@ public class DashboardOwner extends AppCompatActivity {
                     Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
                 }
+            }
+        });
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),imageUploaderActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -14,7 +14,7 @@
         android:layout_marginTop="50sp"
         android:layout_marginStart="10sp"
         android:layout_marginEnd="10sp"
-        android:textColorHint="#000000"
+        android:textColorHint="#AE9595"
         android:hint="Enter the Email id of the owner"
         android:textSize="20sp"
         android:textAlignment="center"
@@ -29,7 +29,7 @@
         android:layout_marginStart="10sp"
         android:layout_marginEnd="10sp"
         android:layout_marginTop="10dp"
-        android:textColorHint="#000000"
+        android:textColorHint="#9C8D8D"
 
         android:hint="Enter the password"
         android:textSize="20sp"

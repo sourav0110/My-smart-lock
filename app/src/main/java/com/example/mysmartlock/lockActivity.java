@@ -1,23 +1,25 @@
 package com.example.mysmartlock;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,18 +28,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 public class lockActivity extends AppCompatActivity {
+    Calendar calendar;
+    SimpleDateFormat simpleDateFormat,simpleDateFormatDate;
+    String Date;
 TextView statusTxt,openedByTxt;
 CardView cardView;
 ArrayList<String> lockMemberList;
 LinearLayout linearLayout;
 Button buttonMember,toggleButton,enterButton,configureButton;
-DatabaseReference lockRef,lockMember;
+DatabaseReference lockRef,lockMember,updateLockInfoRef;
 FirebaseAuth mAuth;
 EditText MemberEditText,localIPEditText;
+String nameOfUser="";
+    String openedByUserInfo,time,date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,15 +65,19 @@ EditText MemberEditText,localIPEditText;
         localIPEditText=(EditText)findViewById(R.id.editTextLockActivity);
         lockRef= FirebaseDatabase.getInstance().getReference();
         lockMember=FirebaseDatabase.getInstance().getReference();
+        updateLockInfoRef=FirebaseDatabase.getInstance().getReference();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mAuth=FirebaseAuth.getInstance();
-        String status=getIntent().getExtras().getString("status");
+        lockMemberList=new ArrayList<>();
+        // getting the values from previous activity
+        final String[] status = {getIntent().getExtras().getString("status")};
         String openedBy=getIntent().getExtras().getString("openedBy");
         int color=getIntent().getExtras().getInt("color");
         String LockNumber=getIntent().getExtras().getString("LockNumber");
-        lockMemberList=new ArrayList<>();
-
-        statusTxt.setText(status);
+        toggleButton.setText(status[0]);
+        statusTxt.setText(status[0]);
         openedByTxt.setText(openedBy);
+        // Fetching the data from firebase
         lockMember.child("Lock members").child(mAuth.getCurrentUser().getUid()).child(LockNumber).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -135,15 +150,59 @@ EditText MemberEditText,localIPEditText;
             }
         });
 
+
+
         enterButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if(lockMemberList.contains(MemberEditText.getText().toString())){
                     toggleButton.setVisibility(View.VISIBLE);
+                    nameOfUser=MemberEditText.getText().toString();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Not allowed to use the lock",Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        // Fetching the time using Calender class
+
+
+
+
+        // Setting the values in FIrebase
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar=Calendar.getInstance();
+
+                simpleDateFormat=new SimpleDateFormat("hh:mm:ss a");
+
+                simpleDateFormatDate=new SimpleDateFormat("EEEE, dd-MMM-yyyy ");
+
+                time=simpleDateFormat.format(calendar.getTime());
+                date=simpleDateFormatDate.format(calendar.getTime());
+                if(status[0].equals("OFF"))
+                    status[0] ="ON";
+                else
+                    status[0]="OFF";
+                openedByUserInfo ="Power "+ status[0] +" by "+nameOfUser+" at "+time+" on "+date;
+                Map<String,String> insertData=new HashMap<>();
+                insertData.put("OpenedBy",openedByUserInfo);
+                insertData.put("Status",status[0]);
+
+                updateLockInfoRef.child("Locks").child(mAuth.getCurrentUser().getUid()).child(LockNumber).setValue(insertData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        toggleButton.setText(status[0]);
+                    }
+                });
+
+
+
             }
         });
 

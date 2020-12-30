@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="18dp"
+        app:cardCornerRadius="12dp"
         >
 
         <LinearLayout
@@ -31,7 +31,7 @@
                 android:layout_marginLeft="20dp">
 
                 <ImageView
-                    android:id="@+id/roundedimage"
+                    android:id="@+id/ownerimage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -50,13 +50,13 @@
                     android:layout_height="wrap_content"
 
                     android:textColor="#ffffff"
-                    android:textSize="24dp"
+                    android:textSize="24sp"
                     android:id="@+id/OwnerName"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textColor="#ffffff"
                     android:id="@+id/OwnerAccount"
 
@@ -87,7 +87,7 @@
         android:id="@+id/lockCount"
         android:text="Your Locks"
         android:textColor="#000000"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textAlignment="center"
         />
 
