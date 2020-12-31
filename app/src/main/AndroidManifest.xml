@@ -3,6 +3,8 @@
     package="com.example.mysmartlock">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".imageUploaderActivity"></activity>
+        <activity android:name=".newMemberAddActivity"></activity>
+        <activity android:name=".imageUploaderActivity" />
         <activity android:name=".configurationActivity" />
         <activity android:name=".lockActivity" />
         <activity android:name=".joinNewGroup" />

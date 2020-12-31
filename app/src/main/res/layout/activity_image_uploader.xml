@@ -12,7 +12,7 @@
         android:orientation="vertical"
         >
         <androidx.cardview.widget.CardView
-            android:id="@+id/myCardView"
+            android:id="@+id/myCardView2"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
@@ -26,14 +26,30 @@
             android:layout_marginLeft="20dp">
 
             <ImageView
-                android:id="@+id/ownerimage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/imageViewUploadActivity"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:scaleType="fitCenter"
-                android:padding="20dp"
-                android:src="@drawable/srk"
+                android:padding="40dp"
+
                 />
+
         </androidx.cardview.widget.CardView>
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"/>
+
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +59,8 @@
             android:textColor="#ffffff"
             android:text="Select"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:id="@+id/selectButton"
+            android:textSize="15sp"
             android:background="@drawable/cus_button"/>
         <Button
             android:layout_width="match_parent"
@@ -53,8 +70,9 @@
             android:layout_marginEnd="30dp"
             android:textColor="#ffffff"
             android:text="Upload"
+            android:id="@+id/uploadButton"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:background="@drawable/cus_button"/>
 
     </LinearLayout>

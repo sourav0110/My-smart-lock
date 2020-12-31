@@ -43,7 +43,7 @@ CardView cardView;
 ArrayList<String> lockMemberList;
 LinearLayout linearLayout;
 Button buttonMember,toggleButton,enterButton,configureButton;
-DatabaseReference lockRef,lockMember,updateLockInfoRef;
+DatabaseReference lockRef,lockMember,updateLockInfoRef,mpicRef;
 FirebaseAuth mAuth;
 EditText MemberEditText,localIPEditText;
 String nameOfUser="";
@@ -66,6 +66,7 @@ String nameOfUser="";
         lockRef= FirebaseDatabase.getInstance().getReference();
         lockMember=FirebaseDatabase.getInstance().getReference();
         updateLockInfoRef=FirebaseDatabase.getInstance().getReference();
+        mpicRef=FirebaseDatabase.getInstance().getReference();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mAuth=FirebaseAuth.getInstance();
         lockMemberList=new ArrayList<>();
@@ -107,6 +108,7 @@ String nameOfUser="";
 
             }
         });
+
 
         lockRef.child("Locks").child(mAuth.getUid()).child(LockNumber).addValueEventListener(new ValueEventListener() {
             @Override
@@ -168,8 +170,14 @@ String nameOfUser="";
                 }
             }
         });
-        // Fetching the time using Calender class
+        buttonMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(),newMemberAddActivity.class);
+                startActivity(intent);
 
+            }
+        });
 
 
 

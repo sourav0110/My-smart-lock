@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -39,8 +41,8 @@ public class DashboardOwner extends AppCompatActivity {
     ArrayList<String> lockStatus =new ArrayList<>();
     ArrayList<String> openedBy =new ArrayList<>();
     ArrayList<String> keyList=new ArrayList<>();
-    DatabaseReference namesRef,AccRef,UserLockRef;
-    String usernameFB,UserAccFB;
+    DatabaseReference namesRef,AccRef,UserLockRef,mpicRef;
+    String usernameFB,UserAccFB,url;
     TextView OwnerName,OwnerAccount;
     ImageView profileImage;
 
@@ -59,6 +61,7 @@ public class DashboardOwner extends AppCompatActivity {
         OwnerAccount=(TextView)findViewById(R.id.OwnerAccount);
         OwnerName=(TextView)findViewById(R.id.OwnerName);
       namesRef =FirebaseDatabase.getInstance().getReference();
+      mpicRef=FirebaseDatabase.getInstance().getReference();
       namesRef.child("Username").addValueEventListener(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,7 +164,42 @@ public class DashboardOwner extends AppCompatActivity {
 
           }
       });
-      Log.d("Username",String.valueOf(lockStatus.size()));
+        mpicRef.child("Storage links").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String data=dataSnapshot.getValue(String.class);
+                url=dataSnapshot.getValue(String.class);
+                Log.d("Username",data);
+                if(data!="")
+                Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.progress_bar).diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
+
+
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        Log.d("Username",String.valueOf(lockStatus.size()));
+
+
         lockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -198,6 +236,7 @@ public class DashboardOwner extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
 
     }
