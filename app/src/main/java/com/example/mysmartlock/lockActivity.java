@@ -167,6 +167,7 @@ String nameOfUser="";
 
                 }else{
                     Toast.makeText(getApplicationContext(),"Not allowed to use the lock",Toast.LENGTH_LONG).show();
+                    toggleButton.setVisibility(View.GONE);
                 }
             }
         });

@@ -52,7 +52,7 @@ public class DashboardOwner extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_owner);
-        Toast.makeText(getApplicationContext(),"I am the owner",Toast.LENGTH_LONG).show();
+
         logOut=(Button)findViewById(R.id.logOutOwner);
         mAuth= FirebaseAuth.getInstance();
         lockList=(ListView)findViewById(R.id.locklist);
@@ -170,8 +170,8 @@ public class DashboardOwner extends AppCompatActivity {
                 String data=dataSnapshot.getValue(String.class);
                 url=dataSnapshot.getValue(String.class);
                 Log.d("Username",data);
-                if(data!="")
-                Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.progress_bar).diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
+                if(!data.equals(""))
+                Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.profilepic).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
 
 
 
@@ -233,7 +233,10 @@ public class DashboardOwner extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),imageUploaderActivity.class);
+                intent.putExtra("URL",url);
+                intent.putExtra("Activity code","DashboardOwner");
                 startActivity(intent);
+
             }
         });
 

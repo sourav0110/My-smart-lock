@@ -62,22 +62,26 @@
             android:padding="10dp">
             <EditText
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="198.126.45.67"
                 android:textColorHint="#958181"
                 android:textColor="#000000"
+                android:textSize="15sp"
+                android:padding="10dp"
                 android:textAlignment="center"
                 android:id="@+id/editTextLockActivity"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
+                android:background="@drawable/boarders"
             android:layout_toLeftOf="@+id/configureButton"
                 android:gravity="center_horizontal" />
 
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Configure"
+                android:textSize="15sp"
                 android:id="@+id/configureButton"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
@@ -94,6 +98,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/shape"
             android:text="Add new member"
+
             android:bottomRightRadius="10dp"
             android:bottomLeftRadius="10dp"
             android:topLeftRadius="10dp"
@@ -109,11 +114,15 @@
             android:layout_marginTop="20dp">
             <EditText
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="Enter your name "
                 android:textColorHint="#958181"
                 android:textColor="#000000"
+                android:textSize="15sp"
+                android:padding="10dp"
+
                 android:textAlignment="center"
+                android:background="@drawable/boarders"
                 android:id="@+id/memberNameEditText"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
@@ -123,8 +132,9 @@
 
             <Button
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Enter"
+                android:textSize="15sp"
                 android:id="@+id/enterButton"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"

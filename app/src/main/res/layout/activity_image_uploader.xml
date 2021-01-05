@@ -68,12 +68,14 @@
             android:layout_marginTop="30dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
             android:textColor="#ffffff"
             android:text="Upload"
             android:id="@+id/uploadButton"
             android:textAlignment="center"
             android:textSize="15sp"
             android:background="@drawable/cus_button"/>
+
 
     </LinearLayout>
 
