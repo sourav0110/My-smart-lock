@@ -42,7 +42,7 @@ public class DashboardOwner extends AppCompatActivity {
     ArrayList<String> openedBy =new ArrayList<>();
     ArrayList<String> keyList=new ArrayList<>();
     DatabaseReference namesRef,AccRef,UserLockRef,mpicRef;
-    String usernameFB,UserAccFB,url;
+    String usernameFB,UserAccFB,url="";
     TextView OwnerName,OwnerAccount;
     ImageView profileImage;
 
@@ -164,31 +164,16 @@ public class DashboardOwner extends AppCompatActivity {
 
           }
       });
-        mpicRef.child("Storage links").addChildEventListener(new ChildEventListener() {
+     /*   mpicRef.child("Storage links").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String data=dataSnapshot.getValue(String.class);
-                url=dataSnapshot.getValue(String.class);
-                Log.d("Username",data);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Map<String,String> data=(Map<String,String>)dataSnapshot.getValue();
+                Log.d("Username",data.get(mAuth.getUid()));
+                url=data.get(mAuth.getUid());
+
                 if(!data.equals(""))
-                Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.profilepic).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
-
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.profilepic).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
 
             }
 
@@ -197,6 +182,40 @@ public class DashboardOwner extends AppCompatActivity {
 
             }
         });
+*/
+      mpicRef.child("Storage links").child(mAuth.getUid()).addChildEventListener(new ChildEventListener() {
+          @Override
+          public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+              String data=dataSnapshot.getValue(String.class);
+              Log.d("Username",data);
+              url=data;
+              if(!data.equals(""))
+                  Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.profilepic).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
+
+
+
+          }
+
+          @Override
+          public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+          }
+
+          @Override
+          public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+          }
+
+          @Override
+          public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+          }
+
+          @Override
+          public void onCancelled(@NonNull DatabaseError databaseError) {
+
+          }
+      });
         Log.d("Username",String.valueOf(lockStatus.size()));
 
 
