@@ -158,7 +158,7 @@ String nameOfUser="";
 
             @Override
             public void onClick(View v) {
-                if(lockMemberList.contains(MemberEditText.getText().toString())){
+                if(lockMemberList.contains(MemberEditText.getText().toString().trim())){
                     toggleButton.setVisibility(View.VISIBLE);
                     nameOfUser=MemberEditText.getText().toString();
                     InputMethodManager imm = (InputMethodManager)getSystemService(
@@ -175,6 +175,8 @@ String nameOfUser="";
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplicationContext(),newMemberAddActivity.class);
+                intent.putExtra("lock number",LockNumber);
+                intent.putExtra("color",color);
                 startActivity(intent);
 
             }
@@ -198,7 +200,7 @@ String nameOfUser="";
                     status[0] ="ON";
                 else
                     status[0]="OFF";
-                openedByUserInfo ="Power "+ status[0] +" by "+nameOfUser+" at "+time+" on "+date;
+                openedByUserInfo ="Powered "+ status[0] +" by "+nameOfUser+" at "+time+" on "+date;
                 Map<String,String> insertData=new HashMap<>();
                 insertData.put("OpenedBy",openedByUserInfo);
                 insertData.put("Status",status[0]);

@@ -46,6 +46,7 @@ public class imageUploaderActivity extends AppCompatActivity {
     DatabaseReference mPicRef;
     ProgressBar mprogressBar;
     String url;
+    String activityCode;
 
 
     @Override
@@ -60,7 +61,7 @@ public class imageUploaderActivity extends AppCompatActivity {
         mprogressBar = (ProgressBar) findViewById(R.id.progressBar2);
         mAuth = FirebaseAuth.getInstance();
         url = getIntent().getStringExtra("URL");
-        String activityCode = getIntent().getStringExtra("Activity code");
+         activityCode = getIntent().getStringExtra("Activity code");
         selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,14 +143,19 @@ public class imageUploaderActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put(mAuth.getCurrentUser().getUid(), String.valueOf(uri));
-                            mPicRef.child("Storage links").setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            hashMap.put("link", String.valueOf(uri));
+                            mPicRef.child("Storage links").child(mAuth.getUid()).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_LONG).show();
                                     mprogressBar.setVisibility(View.GONE);
-                                    Intent intent = new Intent(getApplicationContext(), DashboardOwner.class);
-                                    startActivity(intent);
+                                    if(activityCode.equals("DashboardOwner")) {
+                                        Intent intent = new Intent(getApplicationContext(), DashboardOwner.class);
+                                        startActivity(intent);
+                                    }else{
+                                        Intent intent = new Intent(getApplicationContext(), DashboardNewUser.class);
+                                        startActivity(intent);
+                                    }
                                 }
                             });
 

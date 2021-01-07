@@ -18,6 +18,8 @@
         android:hint="Enter the Email id of the owner"
         android:textSize="20sp"
         android:textAlignment="center"
+        android:padding="10dp"
+        android:background="@drawable/boarders"
 
         android:textColor="#000000"
         android:id="@+id/OwnerEmailEditText"
@@ -30,7 +32,8 @@
         android:layout_marginEnd="10sp"
         android:layout_marginTop="10dp"
         android:textColorHint="#9C8D8D"
-
+        android:padding="10dp"
+        android:background="@drawable/boarders"
         android:hint="Enter the password"
         android:textSize="20sp"
         android:textAlignment="center"

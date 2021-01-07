@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else {
+                            mprogressbar.setVisibility(View.GONE);
                             Toast.makeText(MainActivity.this, "Error occured", Toast.LENGTH_LONG).show();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(MainActivity.this, "Invalid Password", Toast.LENGTH_LONG).show();
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                             } else if (task.getException() instanceof FirebaseAuthInvalidUserException) {
                                 Toast.makeText(MainActivity.this, "Email not in use", Toast.LENGTH_LONG).show();
                                 emailEditText.setError("Email not in use");
-                                mprogressbar.setVisibility(View.GONE);
+
 
                             }
                         }
