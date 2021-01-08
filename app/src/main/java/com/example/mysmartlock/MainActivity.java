@@ -183,8 +183,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //DatabaseReference mRef = FirebaseDatabase.getInstance().getReference("Users/");
-        // mRef.child("Name").setValue("Sourav");
+
         emailEditText=(EditText)findViewById(R.id.emailEditText);
         passwordEditText=(EditText)findViewById(R.id.passwordEditText);
         signUp=(TextView)findViewById(R.id.signUp);
@@ -193,46 +192,8 @@ public class MainActivity extends AppCompatActivity {
         usernameEditText=(EditText)findViewById(R.id.usernameEditText);
         mprogressbar=(ProgressBar)findViewById(R.id.progressBar);
         firebaseAuth =FirebaseAuth.getInstance();
-
-        ownerRef=FirebaseDatabase.getInstance().getReference("User Account");
-
-        ownerRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String ownerKeyId =snapshot.getKey();
-                String ownerEmail= (String) snapshot.getValue();
-                Log.i("Owner", String.valueOf(ownerKeyId));
-                Log.i("Owner",ownerEmail);
-                owner.add(ownerEmail);
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        Log.i("Check", String.valueOf(owner.contains(emailEditText.getText().toString())));
-        SharedPreferences sharedPreferences=getSharedPreferences(SHARED_PREF,MODE_PRIVATE);
-        isOwner=sharedPreferences.getBoolean(TEXT,false);
-        //Toast.makeText(getApplicationContext(),isOwner.toString(),Toast.LENGTH_LONG).show();
-
-
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        isOwner = sharedPreferences.getBoolean(TEXT, false);
         if(firebaseAuth.getCurrentUser()!=null && isOwner){
             Intent intent = new Intent(getApplicationContext(), DashboardOwner.class);
             startActivity(intent);
@@ -241,16 +202,54 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        ownerRef=FirebaseDatabase.getInstance().getReference("User Account");
+        try {
 
+            ownerRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    String ownerKeyId = snapshot.getKey();
+                    String ownerEmail = (String) snapshot.getValue();
+                    Log.i("Owner", String.valueOf(ownerKeyId));
+                    Log.i("Owner", ownerEmail);
+                    owner.add(ownerEmail);
 
+                }
 
-     /*   if(mAuth.getCurrentUser()!=null && owner.contains(emailEditText.getText().toString())==false){
-            showNextActivity();
-        }else if(mAuth.getCurrentUser()!=null && owner.contains(emailEditText.getText().toString())){
-            Intent intent=new Intent(getApplicationContext(),DashboardOwner.class);
-            startActivity(intent);
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            // Log.d("Check", String.valueOf(owner.contains(emailEditText.getText().toString())));
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        Toast.makeText(getApplicationContext(),"Opened",Toast.LENGTH_LONG).show();*/
+
+
+
+
+
+
+
+
+
 
     }
     public boolean validateEmailAddress() {
@@ -306,10 +305,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
 
         super.onPause();
-         sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(TEXT, check);
-        editor.commit();
+        try {
+            sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(TEXT, check);
+            editor.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     @Override
     public void onBackPressed() {
