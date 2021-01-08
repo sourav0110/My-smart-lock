@@ -62,175 +62,166 @@ public class DashboardOwner extends AppCompatActivity {
         OwnerName=(TextView)findViewById(R.id.OwnerName);
       namesRef =FirebaseDatabase.getInstance().getReference();
       mpicRef=FirebaseDatabase.getInstance().getReference();
-      namesRef.child("Username").addValueEventListener(new ValueEventListener() {
-          @Override
-          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-              Map<String,String> data=(Map<String,String>)dataSnapshot.getValue();
-              Log.d("Username",data.get(mAuth.getUid()));
-              usernameFB=data.get(mAuth.getUid());
-              OwnerName.setText(data.get(mAuth.getUid()));
+      try {
+          namesRef.child("Username").addValueEventListener(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                  Map<String, String> data = (Map<String, String>) dataSnapshot.getValue();
+                  // Log.d("Username",data.get(mAuth.getUid()));
+                  usernameFB = data.get(mAuth.getUid());
+                  OwnerName.setText(data.get(mAuth.getUid()));
 
-          }
+              }
 
-          @Override
-          public void onCancelled(@NonNull DatabaseError databaseError) {
+              @Override
+              public void onCancelled(@NonNull DatabaseError databaseError) {
 
-          }
-      });
-      AccRef=FirebaseDatabase.getInstance().getReference();
-      AccRef.child("User Account").addValueEventListener(new ValueEventListener() {
-          @Override
-          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+              }
+          });
+          AccRef = FirebaseDatabase.getInstance().getReference();
+          AccRef.child("User Account").addValueEventListener(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-              Map<String,String> data=(Map<String,String>)dataSnapshot.getValue();
-              Log.d("Username",data.get(mAuth.getUid()));
-              UserAccFB=data.get(mAuth.getUid());
-              OwnerAccount.setText(data.get(mAuth.getUid()));
-          }
+                  Map<String, String> data = (Map<String, String>) dataSnapshot.getValue();
+                  Log.d("Username", data.get(mAuth.getUid()));
+                  UserAccFB = data.get(mAuth.getUid());
+                  OwnerAccount.setText(data.get(mAuth.getUid()));
+              }
 
-          @Override
-          public void onCancelled(@NonNull DatabaseError databaseError) {
+              @Override
+              public void onCancelled(@NonNull DatabaseError databaseError) {
 
-          }
-      });
+              }
+          });
+      }catch (Exception e){
+          e.printStackTrace();
+      }
       UserLockRef=FirebaseDatabase.getInstance().getReference();
         CustomAdapter customAdapter=new CustomAdapter();
         lockList.setAdapter(customAdapter);
         keyList.clear();
         lockStatus.clear();
         openedBy.clear();
-      UserLockRef.child("Locks").child(UID).addChildEventListener(new ChildEventListener() {
-          @Override
-          public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        try {
+            UserLockRef.child("Locks").child(UID).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
 
-              Map<String,String> data=(Map<String,String>)dataSnapshot.getValue();
-              Log.d("Username",data.get("Status"));
-              lockStatus.add(data.get("Status"));
+                    Map<String, String> data = (Map<String, String>) dataSnapshot.getValue();
+                    Log.d("Username", data.get("Status"));
+                    lockStatus.add(data.get("Status"));
 
-              Log.d("Username",data.get("OpenedBy"));
-              openedBy.add(data.get("OpenedBy"));
-              keyList.add(String.valueOf(dataSnapshot.getKey()));
-              Log.d("Username",String.valueOf(dataSnapshot.getKey()));
-              customAdapter.notifyDataSetChanged();
-
-
-
-          }
-
-          @Override
-          public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-              Log.d("Username",dataSnapshot.getKey());
-              Map<String,String> data=(Map<String,String>)dataSnapshot.getValue();
-
-              int p=0;
-              int flag=0;
-              for(int i=0;i<keyList.size();i++){
-                  if(keyList.get(i).equals(dataSnapshot.getKey())==true){
-                      p=i;
-                      lockStatus.set(p,data.get("Status"));
-                      openedBy.set(p,data.get("OpenedBy"));
-                      flag=1;
-
-                  }
-                  else{
-                      continue;
-                  }
+                    Log.d("Username", data.get("OpenedBy"));
+                    openedBy.add(data.get("OpenedBy"));
+                    keyList.add(String.valueOf(dataSnapshot.getKey()));
+                    Log.d("Username", String.valueOf(dataSnapshot.getKey()));
+                    customAdapter.notifyDataSetChanged();
 
 
-              }
-              if(flag==0){
-                  lockStatus.add(data.get("Status"));
-                  openedBy.add(data.get("OpenedBy"));
-              }
-              customAdapter.notifyDataSetChanged();
-
-
-          }
-
-          @Override
-          public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-          }
-
-          @Override
-          public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-          }
-
-          @Override
-          public void onCancelled(@NonNull DatabaseError databaseError) {
-
-          }
-      });
-     /*   mpicRef.child("Storage links").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Map<String,String> data=(Map<String,String>)dataSnapshot.getValue();
-                Log.d("Username",data.get(mAuth.getUid()));
-                url=data.get(mAuth.getUid());
-
-                if(!data.equals(""))
-                    Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.profilepic).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-*/
-      mpicRef.child("Storage links").child(mAuth.getUid()).addChildEventListener(new ChildEventListener() {
-          @Override
-          public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-              String data=dataSnapshot.getValue(String.class);
-              Log.d("Username",data);
-              url=data;
-              if(!data.equals(""))
-                  Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.profilepic).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
-
-
-
-          }
-
-          @Override
-          public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-          }
-
-          @Override
-          public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-          }
-
-          @Override
-          public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-          }
-
-          @Override
-          public void onCancelled(@NonNull DatabaseError databaseError) {
-
-          }
-      });
-        Log.d("Username",String.valueOf(lockStatus.size()));
-
-
-        lockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Intent intent=new Intent(getApplicationContext(),lockActivity.class);
-               intent.putExtra("status",lockStatus.get(position));
-               intent.putExtra("openedBy",openedBy.get(position));
-               intent.putExtra("LockNumber",keyList.get(position));
-               intent.putExtra("color",color[position]);
-               startActivity(intent);
                 }
-            }
-        );
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    Log.d("Username", dataSnapshot.getKey());
+                    Map<String, String> data = (Map<String, String>) dataSnapshot.getValue();
+
+                    int p = 0;
+                    int flag = 0;
+                    for (int i = 0; i < keyList.size(); i++) {
+                        if (keyList.get(i).equals(dataSnapshot.getKey()) == true) {
+                            p = i;
+                            lockStatus.set(p, data.get("Status"));
+                            openedBy.set(p, data.get("OpenedBy"));
+                            flag = 1;
+
+                        } else {
+                            continue;
+                        }
+
+
+                    }
+                    if (flag == 0) {
+                        lockStatus.add(data.get("Status"));
+                        openedBy.add(data.get("OpenedBy"));
+                    }
+                    customAdapter.notifyDataSetChanged();
+
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            mpicRef.child("Storage links").child(mAuth.getUid()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    String data = dataSnapshot.getValue(String.class);
+                    Log.d("Username", data);
+                    url = data;
+                    if (!data.equals(""))
+                        Glide.with(DashboardOwner.this).load(url).placeholder(R.drawable.profilepic).dontAnimate().diskCacheStrategy(DiskCacheStrategy.ALL).into(profileImage);
+
+
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            Log.d("Username", String.valueOf(lockStatus.size()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try {
+
+            lockList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                @Override
+                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                    Intent intent = new Intent(getApplicationContext(), lockActivity.class);
+                                                    intent.putExtra("status", lockStatus.get(position));
+                                                    intent.putExtra("openedBy", openedBy.get(position));
+                                                    intent.putExtra("LockNumber", keyList.get(position));
+                                                    intent.putExtra("color", color[position]);
+                                                    startActivity(intent);
+                                                }
+                                            }
+            );
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
 
 
